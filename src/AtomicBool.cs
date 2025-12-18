@@ -27,7 +27,7 @@ public struct AtomicBool
     private const int _false = 0;
     private const int _true = 1;
 
-    private readonly AtomicInt _value;
+    private AtomicInt _value;
 
     /// <summary>
     /// Initializes a new <see cref="AtomicBool"/> with the specified initial value.
@@ -93,6 +93,15 @@ public struct AtomicBool
         => _value.CompareExchange(
                newValue ? _true : _false,
                expected ? _true : _false) == (expected ? _true : _false);
+
+    public bool Value
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => _value.Read() != _false;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => _value.Write(value ? _true : _false);
+    }
 
     /// <summary>
     /// Returns a string representation of the current value.
