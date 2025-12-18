@@ -1,57 +1,101 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Threading;
-using Soenneker.Atomics.Bools.Abstract;
+using Soenneker.Atomics.Ints;
 
 namespace Soenneker.Atomics.Bools;
 
-///<inheritdoc cref="IAtomicBool"/>
-public sealed class AtomicBool : IAtomicBool
+/// <summary>
+/// A lightweight, allocation-free atomic boolean implemented on top of an inline
+/// <see cref="AtomicInt"/>.
+/// <para/>
+/// This type provides atomic read, write, and compare-and-set semantics for boolean
+/// values using a single integer backing field (0 = false, 1 = true).
+/// </summary>
+/// <remarks>
+/// <para>
+/// Reads establish acquire semantics and writes establish release semantics, making this
+/// type suitable for visibility signaling and safe publication between threads.
+/// </para>
+/// <para>
+/// This is a mutable <see langword="struct"/> intended for use as a <b>private field</b>
+/// or inline synchronization primitive. Avoid copying this type, returning it from
+/// properties, or using it through interfaces, as doing so will create independent copies
+/// of the atomic state.
+/// </para>
+/// </remarks>
+public struct AtomicBool
 {
     private const int _false = 0;
     private const int _true = 1;
 
-    private int _flag;
+    private readonly AtomicInt _value;
 
+    /// <summary>
+    /// Initializes a new <see cref="AtomicBool"/> with the specified initial value.
+    /// </summary>
+    /// <param name="initialValue">
+    /// The initial boolean value.
+    /// </param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public AtomicBool(bool initialValue = false) => _flag = initialValue ? _true : _false;
+    public AtomicBool(bool initialValue = false)
+        => _value = new AtomicInt(initialValue ? _true : _false);
 
-    public bool Value
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Volatile.Read(ref _flag) != _false;
+    /// <summary>
+    /// Reads the current value of the atomic boolean.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if the current value is true; otherwise <see langword="false"/>.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Read() => _value.Read() != _false;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        set => Volatile.Write(ref _flag, value ? _true : _false);
-    }
+    /// <summary>
+    /// Writes a new value to the atomic boolean.
+    /// </summary>
+    /// <param name="value">
+    /// The value to assign.
+    /// </param>
+    /// <remarks>
+    /// This operation performs an atomic write with release semantics.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Write(bool value)
+        => _value.Write(value ? _true : _false);
 
+    /// <summary>
+    /// Atomically replaces the current value with <paramref name="value"/> and
+    /// returns the previous value.
+    /// </summary>
+    /// <param name="value">
+    /// The value to assign.
+    /// </param>
+    /// <returns>
+    /// The value that was stored prior to the exchange.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Exchange(bool value)
+        => _value.Exchange(value ? _true : _false) == _true;
+
+    /// <summary>
+    /// Atomically sets the value to <paramref name="newValue"/> if the current value
+    /// equals <paramref name="expected"/>.
+    /// </summary>
+    /// <param name="expected">
+    /// The value expected to be currently stored.
+    /// </param>
+    /// <param name="newValue">
+    /// The value to assign if the comparison succeeds.
+    /// </param>
+    /// <returns>
+    /// <see langword="true"/> if the value was updated; otherwise <see langword="false"/>.
+    /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CompareAndSet(bool expected, bool newValue)
-    {
-        int e = expected ? _true : _false;
-        int n = newValue ? _true : _false;
-        return Interlocked.CompareExchange(ref _flag, n, e) == e;
-    }
+        => _value.CompareExchange(
+               newValue ? _true : _false,
+               expected ? _true : _false) == (expected ? _true : _false);
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TrySetTrue() => Interlocked.Exchange(ref _flag, _true) == _false;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TrySetFalse() => Interlocked.Exchange(ref _flag, _false) == _true;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Exchange(bool newValue) => Interlocked.Exchange(ref _flag, newValue ? _true : _false) == _true;
-
-    public bool IsTrue
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Value;
-    }
-
-    public bool IsFalse
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => !Value;
-    }
-
-    public override string ToString() => Value ? "True" : "False";
+    /// <summary>
+    /// Returns a string representation of the current value.
+    /// </summary>
+    public override string ToString() => Read() ? "true" : "false";
 }
