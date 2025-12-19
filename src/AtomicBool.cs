@@ -94,6 +94,13 @@ public struct AtomicBool
                newValue ? _true : _false,
                expected ? _true : _false) == (expected ? _true : _false);
 
+    /// <summary>
+    /// Gets or sets the current value of the atomic boolean.
+    /// </summary>
+    /// <remarks>
+    /// The getter performs an atomic read with acquire semantics.
+    /// The setter performs an atomic write with release semantics.
+    /// </remarks>
     public bool Value
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,6 +109,38 @@ public struct AtomicBool
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => _value.Write(value ? _true : _false);
     }
+
+    /// <summary>
+    /// Attempts to atomically transition the value from <see langword="false"/> to
+    /// <see langword="true"/>.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if the value was updated; <see langword="false"/> if it
+    /// was already <see langword="true"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method performs a single compare-and-exchange operation and does not
+    /// spin or retry.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool TrySetTrue()
+        => _value.CompareExchange(_true, _false) == _false;
+
+    /// <summary>
+    /// Attempts to atomically transition the value from <see langword="true"/> to
+    /// <see langword="false"/>.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if the value was updated; <see langword="false"/> if it
+    /// was already <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method performs a single compare-and-exchange operation and does not
+    /// spin or retry.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool TrySetFalse()
+        => _value.CompareExchange(_false, _true) == _true;
 
     /// <summary>
     /// Returns a string representation of the current value.
