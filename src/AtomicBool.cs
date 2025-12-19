@@ -36,8 +36,7 @@ public struct AtomicBool
     /// The initial boolean value.
     /// </param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public AtomicBool(bool initialValue = false)
-        => _value = new AtomicInt(initialValue ? _true : _false);
+    public AtomicBool(bool initialValue = false) => _value = new AtomicInt(initialValue ? _true : _false);
 
     /// <summary>
     /// Reads the current value of the atomic boolean.
@@ -58,8 +57,7 @@ public struct AtomicBool
     /// This operation performs an atomic write with release semantics.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Write(bool value)
-        => _value.Write(value ? _true : _false);
+    public void Write(bool value) => _value.Write(value ? _true : _false);
 
     /// <summary>
     /// Atomically replaces the current value with <paramref name="value"/> and
@@ -72,8 +70,7 @@ public struct AtomicBool
     /// The value that was stored prior to the exchange.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Exchange(bool value)
-        => _value.Exchange(value ? _true : _false) == _true;
+    public bool Exchange(bool value) => _value.Exchange(value ? _true : _false) == _true;
 
     /// <summary>
     /// Atomically sets the value to <paramref name="newValue"/> if the current value
@@ -89,10 +86,8 @@ public struct AtomicBool
     /// <see langword="true"/> if the value was updated; otherwise <see langword="false"/>.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool CompareAndSet(bool expected, bool newValue)
-        => _value.CompareExchange(
-               newValue ? _true : _false,
-               expected ? _true : _false) == (expected ? _true : _false);
+    public bool CompareAndSet(bool expected, bool newValue) =>
+        _value.CompareExchange(newValue ? _true : _false, expected ? _true : _false) == (expected ? _true : _false);
 
     /// <summary>
     /// Gets or sets the current value of the atomic boolean.
@@ -123,8 +118,7 @@ public struct AtomicBool
     /// spin or retry.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TrySetTrue()
-        => _value.CompareExchange(_true, _false) == _false;
+    public bool TrySetTrue() => _value.TrySet(_true, _false);
 
     /// <summary>
     /// Attempts to atomically transition the value from <see langword="true"/> to
@@ -139,8 +133,7 @@ public struct AtomicBool
     /// spin or retry.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TrySetFalse()
-        => _value.CompareExchange(_false, _true) == _true;
+    public bool TrySetFalse() => _value.TrySet(_false, _true);
 
     /// <summary>
     /// Returns a string representation of the current value.
